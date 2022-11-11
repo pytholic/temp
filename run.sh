@@ -9,7 +9,7 @@ then
 fi
 echo "Project path is $project_path"
 echo "Copying file..."
-#scp -r ./tmp pytholic@10.160.50.25:"$project_path/"
+scp -r ./tmp pytholic@10.160.50.25:"$project_path/"
 echo "Copy process finished..."
 
 
@@ -22,13 +22,8 @@ fi
 env="$6"
 cam="$8"
 
-#echo "Starting frame extraction..."
-ssh "$server_ip" ". ~/.zshrc; cd "$project_path"; conda activate droidenv; python3 ./utils/extract_frames.py -c $cam; echo "Frame extraction completed...";
-echo "Running droid-slam..."; python3 demo.py --imagedir=$project_path/tmp/frames --calib=./calib/gopro.txt --reconstruction_path=$project_path/tmp/output" 
+ssh "$server_ip" ". ~/.zshrc; cd "$project_path"; conda activate droidenv; echo "Starting frame extraction..."; python3 ./utils/extract_frames_ffmpeg.py -d $cam; echo "Frame extraction completed...";
+mkdir $project_path/tmp/output; echo "Running droid-slam..."; python3 demo.py --imagedir=$project_path/tmp/frames --calib=./calib/$cam.txt --reconstruction_path=$project_path/tmp/output; echo "Droid-slam completed...""
 
-# ssh "$server_ip" ". ~/.zshrc; cd "$project_path"; conda activate droidenv; mkdir -p ./tmp/output; echo "Starting frame extraction...";
-# python3 ./utils/extract_frames.py; echo "Frame extraction completed...";" 
 
-# ssh "$server_ip" ". ~/.zshrc; cd "$project_path"; conda activate droidenv; echo "Running droid-slam..."; 
-# python3 demo.py --imagedir=$project_path/tmp/frames --calib=./calib/gopro.txt --reconstruction_path=$project_path/tmp/output" 
 
