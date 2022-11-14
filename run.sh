@@ -25,5 +25,18 @@ cam="$8"
 ssh "$server_ip" ". ~/.zshrc; cd "$project_path"; conda activate droidenv; echo "Starting frame extraction..."; python3 ./utils/extract_frames_ffmpeg.py -d $cam; echo "Frame extraction completed...";
 mkdir $project_path/tmp/output; echo "Running droid-slam..."; python3 demo.py --imagedir=$project_path/tmp/frames --calib=./calib/$cam.txt --reconstruction_path=$project_path/tmp/output; echo "Droid-slam completed...""
 
+# Fetch results
+mkdir ./results
+scp "pytholic@$server_ip:$project_path/tmp/output/*" ./results
+
+# Remove tmp folder from server
+ssh "$server_ip" rm -r $project_path/tmp
+
+# Visualize and remove outlier
+conda activate open3d
+python3 vis.py; python3 outlier_removal.py
+
+
+
 
 
