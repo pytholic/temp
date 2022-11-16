@@ -103,7 +103,7 @@ poses = o3d.io.read_line_set(os.path.join(PATH, 'camera.ply'))
 
 
 # Create counter dict
-cnt_dict = defaultdict()
+cnt_dict = defaultdict()  # defaultdict for easy increment
 cnt_dict['mouse'] = 0
 cnt_dict['keyboard'] = 0
 
