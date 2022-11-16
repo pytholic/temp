@@ -71,7 +71,6 @@ def filter(vis, cls):
 	Function to filter the desired objects.
 	"""
 	global cnt_dict
-
 	cnt_dict[f'{cls}']+=1
 
 	# Set mask color if count is odd
@@ -89,11 +88,21 @@ def filter(vis, cls):
 	vis.update_geometry(pcd)
 
 
-# def show_original(vis):
-# 	#pcd = create_point_cloud(pcd_copy.points, pcd_copy.colors)
-# 	pcd = o3d.io.read_point_cloud(os.path.join(PATH, 'output.ply'))
-# 	print("Showing original...")
-# 	vis.update_geometry(pcd)
+def show_original(vis):
+	"""
+	Function to reset and show original point cloud.
+	"""
+
+	global cnt_dict
+
+	for v in idx_dict.values():
+		for i in v[0]:
+			pcd.colors[i] = v[1][i]
+
+	cnt_dict = {key: 0 for key in cnt_dict}  # set counts to 0
+
+	print("Showing original...")
+	vis.update_geometry(pcd)
 
 
 # Read point clouds
@@ -170,10 +179,10 @@ vis.register_key_callback(ord('D'), rotate_view_right)
 vis.register_key_callback(ord('Q'), rotate_view_up)
 vis.register_key_callback(ord('E'), rotate_view_down)
 
-vis.register_key_callback(ord('6'), partial(filter, cls='mouse'))
-vis.register_key_callback(ord('7'), partial(filter, cls='keyboard'))
+vis.register_key_callback(ord('1'), partial(filter, cls='mouse'))
+vis.register_key_callback(ord('2'), partial(filter, cls='keyboard'))
 
-#vis.register_key_callback(ord('8'), show_original)
+vis.register_key_callback(ord('0'), show_original)
 
 vis.add_geometry(pcd)
 vis.add_geometry(poses)
