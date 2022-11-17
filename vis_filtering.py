@@ -183,7 +183,7 @@ vis.register_key_callback(ord("E"), rotate_view_down)
 for i, (k, v) in enumerate(COLORS.items()):
     vis.register_key_callback(ord(str(i)), partial(filter, cls=k))
 
-vis.register_key_callback(ord("0"), show_original)
+vis.register_key_callback(ord("`"), show_original)
 
 vis.add_geometry(pcd)
 vis.add_geometry(poses)
